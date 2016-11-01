@@ -1,0 +1,25 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+    - "5672:5672"
+    container_name: "rabbitmq"
+    hostname: "rabbitmq"
+
+  ipam:
+    image: rackhd/ipam:latest
+    container_name: "ipam"
+    hostname: "ipam"
+    ports:
+      - "8000:8000"
+    command: "-mongo ipam-mongo:27017"
+    depends_on:
+      - ipam-mongo
+
+  ipam-mongo:
+    image: mongo:3.2.10
+    expose:
+    - "27017"
+    container_name: "ipam-mongo"
+    hostname: "ipam-mongo"
